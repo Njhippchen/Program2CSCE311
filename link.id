@@ -1,0 +1,9 @@
+ENTRY(_start)
+SECTIONS
+{
+  . = 0x80200000; /* typical load addr for QEMU virt - adjust if needed */
+  .text : { *(.text*) }
+  .rodata : { *(.rodata*) }
+  .data : { *(.data*) }
+  .bss : { *(.bss*) }
+}

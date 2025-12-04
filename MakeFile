@@ -1,0 +1,39 @@
+# Adjust CROSS for your riscv toolchain, e.g. riscv64-unknown-elf-
+CROSS ?= riscv64-unknown-elf-
+CC = $(CROSS)gcc
+LD = $(CROSS)ld
+OBJCOPY = $(CROSS)objcopy)
+CFLAGS = -march=rv64gc -mabi=lp64 -O2 -fno-builtin -nostdlib -fno-common -Wall -Wextra -I./src
+LDFLAGS = -T link.ld
+
+SRCS = $(wildcard src/*.c) $(wildcard src/*.S)
+OBJS = $(SRCS:.c=.o)
+OBJS := $(OBJS:.S=.o)
+
+USER_OBJS = user_hello.o user_cat.o
+
+all: kernel.elf
+
+# Compile kernel objects
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.S
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Build tiny user program objects compiled as position-independent code and linked into kernel
+user_hello.o: src/user/hello.c
+	$(CC) $(CFLAGS) -nostdlib -fPIC -c $< -o $@
+
+user_cat.o: src/user/cat.c
+	$(CC) $(CFLAGS) -nostdlib -fPIC -c $< -o $@
+
+# kernel: link user objects into kernel binary so symbols _user_hello_start exist
+kernel.elf: $(OBJS) user_hello.o user_cat.o
+	$(LD) $(LDFLAGS) -o $@ $(OBJS) user_hello.o user_cat.o
+
+run: kernel.elf
+	qemu-system-riscv64 -nographic -machine virt -kernel kernel.elf -smp 1 -m 256M
+
+clean:
+	rm -f *.o src/*.o kernel.elf user_hello.o user_cat.o

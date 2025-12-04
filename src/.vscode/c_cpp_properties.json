@@ -1,0 +1,27 @@
+{
+  "configurations": [
+    {
+      "name": "riscv64",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "C:/riscv/bin/riscv64-unknown-elf-gcc.exe",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "includePath": [
+        "${workspaceFolder}/src",
+        "${workspaceFolder}/**",
+        "C:/riscv/sysroot/include"   /* adjust or remove if different */
+      ],
+      "browse": {
+        "path": [
+          "${workspaceFolder}/src",
+          "${workspaceFolder}/**"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "defines": [
+        "RV64"
+      ]
+    }
+  ],
+  "version": 4
+}
