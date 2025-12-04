@@ -2,7 +2,7 @@
 CROSS ?= riscv64-unknown-elf-
 CC = $(CROSS)gcc
 LD = $(CROSS)ld
-OBJCOPY = $(CROSS)objcopy)
+OBJCOPY = $(CROSS)objcopy
 CFLAGS = -march=rv64gc -mabi=lp64 -O2 -fno-builtin -nostdlib -fno-common -Wall -Wextra -I./src
 LDFLAGS = -T link.ld
 
