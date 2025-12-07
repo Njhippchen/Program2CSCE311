@@ -1,12 +1,10 @@
-/* context switch assembly: save/restore registers between processes.
-   Interfaces:
-     save_context(sp). Return old sp in a0? We'll implement a simple C interface.
-*/
     .section .text
     .globl context_switch
 /* context_switch(old_ctx_ptr, new_ctx_ptr) */
 context_switch:
     /* a0 = old pointer, a1 = new pointer */
+    beqz a0, 1f        /* if old == NULL skip saving */
+    /* save registers to old context */
     sd ra, 0(a0)
     sd sp, 8(a0)
     sd gp, 16(a0)
@@ -26,7 +24,8 @@ context_switch:
     sd s9, 128(a0)
     sd s10, 136(a0)
     sd s11, 144(a0)
-
+1:
+    /* Load registers from new context */
     ld ra, 0(a1)
     ld sp, 8(a1)
     ld gp, 16(a1)
