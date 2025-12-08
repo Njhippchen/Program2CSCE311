@@ -4,6 +4,12 @@ video link: https://youtu.be/Re-hm_NVapg
 
 program2 report: https://docs.google.com/document/d/1B1_x7Q1T4aBe1K0yqjrT5z89isa068sqWE2u1BpnHtc/edit?usp=sharing
 
+Clear instructions to build and run your OS:
+1. Install the required RISC-V toolchain and QEMU emulator.
+2. Compile the OS kernel and embedded user programs.
+3. Boot the kernel and observe basic process scheduling and system calls.
+4. Can change the user code and observe its behavior inside the kernel.
+
 Dependencies:
 You need a RISC-V cross toolchain and QEMU (RISC-V target). Example test environment:
 
