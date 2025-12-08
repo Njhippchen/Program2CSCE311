@@ -12,3 +12,18 @@ riscv64-unknown-elf-gcc, riscv64-unknown-elf-ld (or other riscv64-*-elf toolchai
 qemu-system-riscv64 (QEMU with virt machine support)
 
 make, gcc (host), binutils (host)
+
+QEMU command to run:
+make run
+
+Expected behavior description:
+You should see the kernel boot message followed by the embedded user programs outputting text:
+mini-rvOS booting...
+hello from user program
+<stuff from cat program or other user apps>
+
+What happens internally:
+kernel_main() initializes the kernel and proc_table.
+The kernel spawns the embedded user programs (symbols linked into the kernel).
+Simple user programs use ecall to perform syscalls (write/yield/read/spawn/exit).
+The scheduler switches between ready processes in a round-robin fashion.
